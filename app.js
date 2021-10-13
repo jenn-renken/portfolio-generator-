@@ -1,28 +1,29 @@
-// imports page-template.js 
-const generatePage = require('./src/page-template.js');
+const inquirer = require('inquirer');
+// const fs = require('fs');
+// const generatePage = require('./src/page-template');
 
 // allows use of the fs module
-const fs = require('fs');
+// const fs = require('fs');
+
+// // imports page-template.js 
+// const generatePage = require('./src/page-template.js');
+
+// const pageHTML = generatePage(name, github);
 
 // accepts user input in the command line
-const profileDataArgs = process.argv.slice(2);
-const [name, github] = profileDataArgs;
 
-// const printProfileData = profileDataArr => {
-//     for (let i = 0; i < profileDataArr.length; i += 1) {
-//         console.log(profileDataArr[i]);
-//     }
-//     console.log('================');
+// fs.writeFile('./index.html', pageHTML, err => {
+//     if(err) throw err;
 
-//     profileDataArr.forEach(profileItem => console.log(profileItem));
-// };
+//     console.log('Portfolio complete! Check out index.html to see the output!');
+// });
 
-// printProfileData(profileDataArgs);
-
-// end block 
-
-fs.writeFile('index.html', generatePage(name, github), err => {
-    if(err) throw err;
-
-    console.log('Portfolio complete! Check out index.html to see the output!');
-});
+inquirer
+    .prompt([
+        {
+        type: 'input',
+        name: 'name',
+        message: 'What is your name'
+        }
+    ])
+    .then(answers => console.log(answers));
