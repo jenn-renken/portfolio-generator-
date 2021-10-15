@@ -1,22 +1,6 @@
 const inquirer = require('inquirer');
-// const fs = require('fs');
-// const generatePage = require('./src/page-template');
-
-// allows use of the fs module
-// const fs = require('fs');
-
-// // imports page-template.js 
-// const generatePage = require('./src/page-template.js');
-
-// const pageHTML = generatePage(name, github);
-
-// accepts user input in the command line
-
-// fs.writeFile('./index.html', pageHTML, err => {
-//     if(err) throw err;
-
-//     console.log('Portfolio complete! Check out index.html to see the output!');
-// });
+const generatePage = require('./src/page-template');
+const { writeFile, copyFile } = require('./utils/generate-site');
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -75,6 +59,7 @@ const promptProject = portfolioData => {
     if (!portfolioData.projects) {
     portfolioData.projects = [];
     }
+
     console.log(`
 ====================
 Add a new project
@@ -151,9 +136,22 @@ Add a new project
 };
 
 promptUser()
-    .then(promptProject)
-    .then(portfolioData => {
-        console.log(portfolioData);
-    });
+  .then(promptProject)
+  .then(portfolioData => {
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
   
